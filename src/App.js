@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import ChessBoard from "./Components/chess-board";
 import AppHeader from "./Components/app-header";
