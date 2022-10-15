@@ -1,8 +1,15 @@
 import React from "react";
+
 export default function AppHeader() {
   return (
-    <div className="header">
-      <h1>Voice Chess</h1>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {<h1>Voice Activated Chess</h1>}
     </div>
   );
 }
