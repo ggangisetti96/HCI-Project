@@ -5,13 +5,15 @@
 }
 
 .app-container {
-  width: 70%;
+  width: 90%;
   margin: auto;
 }
 
 .header {
   margin-top: 2rem;
   height: 50px;
+  padding: 5px;
+  margin: 10px;
 }
 
 .chess-board {
