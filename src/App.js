@@ -2,13 +2,14 @@ import React from "react";
 import "./App.css";
 import ChessBoard from "./Components/chess-board";
 import AppHeader from "./Components/app-header";
-import activityLegend from "./Components/activityLegend";
+import ActivityLegend from "./Components/activity-legend";
 
 export default function App() {
   return (
     <div className="app-container">
-      <AppHeader />
-      <ChessBoard />
+      <ActivityLegend />
+      {/* <AppHeader />
+      <ChessBoard /> */}
     </div>
   );
 }
