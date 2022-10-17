@@ -3,20 +3,28 @@ import React, { Component } from "react";
 class ActivityLegend extends Component {
   state = {
     count: 0,
-    moves: [],
+    moves: [
+      {
+        moveNumber: 0,
+        player: "white",
+        piece: "pawn",
+        initialPosition: "A1",
+        finalPosition: "A2",
+      },
+      {
+        moveNumber: 1,
+        player: "black",
+        piece: "pawn",
+        initialPosition: "D1",
+        finalPosition: "D2",
+      },
+    ],
   };
 
   styles = {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "bold",
   };
-
-  // function that adds items to moves list (a few lines above this)
-  pushMovesToList() {
-    // this.state.moves.push("My name is what?");
-    // this.state.moves.push("My name is who?");
-    return null;
-  }
 
   getMoves() {
     if (this.state.moves.length === 0) {
@@ -32,54 +40,41 @@ class ActivityLegend extends Component {
     }
   }
 
-  getColorTurn() {
-    if (this.state.moves.length === 0) {
-      // pass
-    } else if (this.state.moves.length % 2 === 1) {
-      return "black";
-    } else {
-      return "white";
-    }
-  }
-
-  // function that gets initial position of the piece
-  getInitialPosition() {
-    return "foo";
-  }
-
-  // function that gets final position of the piece
-  getFinalPosition() {
-    return "bar";
-  }
-
-  /* elements in table:
-  1) player color that moved
-  2) piece
-  3) initial position
-  4) final position
-  */
-  renderMovesTable() {
+  getTable() {
     if (this.state.moves.length === 0) {
       return <p>No moves have been played.</p>;
     } else {
       return (
-        <ul>
-          {this.state.moves((move) => (
-            <li key={move}>{move}</li>
-          ))}
-        </ul>
+        <div className="ActivityLegend">
+          <table>
+            <tr>
+              <th>Move Number</th>
+              <th>Player</th>
+              <th>piece</th>
+              <th>Initial Position</th>
+              <th>Final Position</th>
+            </tr>
+            {this.state.moves.map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td>{val.moveNumber}</td>
+                  <td>{val.player}</td>
+                  <td>{val.piece}</td>
+                  <td>{val.initialPosition}</td>
+                  <td>{val.finalPosition}</td>
+                </tr>
+              );
+            })}
+          </table>
+        </div>
       );
     }
-  }
-
-  renderCount() {
-    return this.state.count;
   }
 
   render() {
     return (
       <div>
-        <span style={this.styles}>{this.getMoves()}</span>
+        <span style={this.styles}>{this.getTable()}</span>
       </div>
     );
   }
