@@ -6,10 +6,16 @@ import ActivityLegend from "./Components/activity-legend";
 
 export default function App() {
   return (
-    <div className="app-container">
-      <ActivityLegend />
-      <AppHeader />
-      <ChessBoard />
+    <div>
+      <div className="AppHeader">
+        <AppHeader />
+      </div>
+
+      <div className="BoardAndLegend">
+        <ChessBoard />
+        <ActivityLegend />
+        <div className="ChessBoard"></div>
+      </div>
     </div>
   );
 }
