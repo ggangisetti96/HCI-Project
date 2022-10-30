@@ -6,6 +6,7 @@ import ChessBoard from "./Components/chess-board";
 import Login from "./Components/login";
 import AppHeader from "./Components/app-header";
 import VoiceRecognition from "./Components/voice-recognition";
+import ActivityLegend from "./Components/activity-legend";
 
 export default function App() {
   return (

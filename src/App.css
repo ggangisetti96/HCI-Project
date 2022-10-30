@@ -1,6 +1,6 @@
 * {
-  padding: 0;
-  margin: 0;
+  padding: 10;
+  margin: 10;
   box-sizing: border-box;
 }
 
@@ -31,10 +31,37 @@
   width: 50%;
   margin-top: 2rem;
 
+.AppHeader {
+  height: 50px;
+  padding: 0px;
+  margin: 20px;
 }
 
-.chess-board {
+.BoardAndLegend {
+  width: 100%;
+  padding-left: 64px;
   display: flex;
+  gap: 32px;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+table {
+  border: 2px solid black;
+  width: 400px;
+  height: 100px;
+  align-content: center;
+  justify-content: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: blanchedalmond;
+}
+
+tr {
+  text-align: center;
+}
+
+td {
+  text-align: center;
 }
