@@ -10,8 +10,7 @@
 }
 
 .header {
-  margin-top: 2rem;
-  height: 50px;;
+  margin-top: 1rem;
   width: 50%;
 }
 .header-main
@@ -29,8 +28,8 @@
   align-items: center;
   justify-content: space-evenly;
   width: 50%;
-  margin-top: 2rem;
-
+  margin-top: 1rem;
+}
 .AppHeader {
   height: 50px;
   padding: 0px;
