@@ -1,0 +1,23 @@
+{
+  "name": "oiwc-api-service",
+  "version": "1.0.0",
+  "description": "Voicechess API service ",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -r esm app.js"
+  },
+  "author": "Gopinath Gangisetti",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "esm": "^3.2.25",
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.18.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.8"
+  }
+}
