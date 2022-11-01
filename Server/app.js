@@ -5,7 +5,6 @@ const mysql = require('mysql2');
 const config = require('./config/dbConfig');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const eventsRouter = require('./routes/events')
 
 // dependencies 
 const app = express();
@@ -32,7 +31,6 @@ app.use(function(req,res,next){
 
 // routes(APIs)
 app.use('/api', indexRouter);
-app.use('/api/events', eventsRouter);
 app.use('/api/users', usersRouter);
 
 
