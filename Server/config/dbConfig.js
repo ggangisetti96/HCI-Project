@@ -1,7 +1,7 @@
 const config = {
-   host:'someec2.us-east-2.compute.amazonaws.com',
-   user:'newmysqlremoteuser',
-   password: 'mypassword',
+   host:'voicechess.cedqijojwzhy.us-east-1.rds.amazonaws.com',
+   user:'admin',
+   password: 'voicechess',
    database:'voicechess'
 }
 
