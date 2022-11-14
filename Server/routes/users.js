@@ -51,11 +51,11 @@ router.get('/:id', (req, res) => {
          if (!result || !result.length) {
             return res.status(400).send('Cannot find user')
           }
-          // if(await bcrypt.compare(req.body.password, result[0].User_Password)) {
-            res.status(200).json({ message: 'Success', data: result})
-          // } else {
-          //  res.status(400).json({ message: 'Invalid Credentials!'})
-          // }
+          if(await bcrypt.compare(req.body.password, result[0].User_Password)) {
+            res.status(200).json({ message: 'Success', data: result[0]})
+          } else {
+           res.status(400).json({ message: 'Invalid Credentials!'})
+          }
       });
 
    } catch {
