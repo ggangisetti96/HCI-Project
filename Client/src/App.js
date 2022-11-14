@@ -14,6 +14,7 @@ export default function App() {
   const [isAuthenticated, toggleAuthenticationFlag] = useSessionStorage(
     "isAuthenticated"
   );
+
   const [user, setUser] = useSessionStorage("user");
 
   const handleLogout = (e) => {
@@ -22,7 +23,6 @@ export default function App() {
     setUser(null);
     window.location = window.location.origin + "/login";
   };
-
   if (isAuthenticated && user) {
     return (
       <div className="app-container">
@@ -45,7 +45,7 @@ export default function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/game" element={<Game />} />
           <Route path="/history" element={<HistoryPage />} />
-          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/profile" element={<UserProfile handleLogout={handleLogout} />} />
         </Routes>
       </div>
     );
@@ -64,6 +64,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/Game" element={<Game />} />
         <Route
           path="login"
           element={

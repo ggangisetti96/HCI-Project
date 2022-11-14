@@ -16,6 +16,11 @@ function LoginPage({ toggleAuthenticationFlag, setUser }) {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+  const handleClick=(e)=>{
+    //navigate("/register");
+
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     fetch(loginURL, {
@@ -28,6 +33,7 @@ function LoginPage({ toggleAuthenticationFlag, setUser }) {
     })
       .then((res) => res.json())
       .then((res) => {
+        
         if (res.message === "Success") {
           toggleAuthenticationFlag(true);
           setUser(res.data);
@@ -82,9 +88,18 @@ function LoginPage({ toggleAuthenticationFlag, setUser }) {
                   <div className="d-flex justify-content-center">
                     <input
                       type="submit"
-                      name="submit"
-                      className="btn bg-pink btn-block btn-md"
+                      name="Login"
+                      className="btn btn-block btn-md"
+                    
                     />
+                  </div> 
+                   <div className="d-flex justify-content-center">
+                    <button
+                     className="btn btn-block btn-md"
+                     onClick={handleClick}                     
+                    >
+                      Signup
+                    </button>
                   </div>
                 </form>
                 {

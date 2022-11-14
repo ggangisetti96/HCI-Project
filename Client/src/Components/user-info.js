@@ -1,7 +1,9 @@
 import React from "react";
 
-function UserProfile() {
-  return <div>User info! must nave a logout button</div>;
+function UserProfile(props) {
+
+
+  return <div> <button  onClick={props.handleLogout}>Logout </button></div>;
 }
 
 export default UserProfile;

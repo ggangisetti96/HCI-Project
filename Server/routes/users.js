@@ -30,7 +30,7 @@ router.get('/:id', (req, res) => {
      const user = { ...req.body, password: hashedPassword };
      delete user['password1'];
      delete user['password2'];
-     const query = "INSERT INTO Users (User_First, User_Last, User_Phone, User_Address, User_Email, User_Password ) VALUES ?"
+     const query = "INSERT INTO Users (User_First, User_Last,  User_Email, User_Password ) VALUES ?"
      const values = [Object.values(user)];
      req.db.query(query, [values], function (err, result) {
       if (err) throw err;
@@ -51,11 +51,11 @@ router.get('/:id', (req, res) => {
          if (!result || !result.length) {
             return res.status(400).send('Cannot find user')
           }
-          if(await bcrypt.compare(req.body.password, result[0].User_Password)) {
-            res.status(200).json({ message: 'Success', data: result[0]})
-          } else {
-           res.status(400).json({ message: 'Invalid Credentials!'})
-          }
+          // if(await bcrypt.compare(req.body.password, result[0].User_Password)) {
+            res.status(200).json({ message: 'Success', data: result})
+          // } else {
+          //  res.status(400).json({ message: 'Invalid Credentials!'})
+          // }
       });
 
    } catch {

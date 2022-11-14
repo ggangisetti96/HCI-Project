@@ -1,5 +1,5 @@
 const config = {
-   host:'voicechess.cedqijojwzhy.us-east-1.rds.amazonaws.com',
+   host:'viocechess.ceu05pwh1t2a.us-east-1.rds.amazonaws.com',
    user:'admin',
    password: 'voicechess',
    database:'voicechess'
