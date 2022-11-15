@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { loginURL } from "../Constants/AppLinks";
+import { Link } from "react-router-dom";
 
 function LoginPage({ toggleAuthenticationFlag, setUser }) {
   const [data, setData] = React.useState({
@@ -16,11 +17,6 @@ function LoginPage({ toggleAuthenticationFlag, setUser }) {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleClick=(e)=>{
-    //navigate("/register");
-
-  };
-
   const submitHandler = (e) => {
     e.preventDefault();
     fetch(loginURL, {
@@ -33,7 +29,6 @@ function LoginPage({ toggleAuthenticationFlag, setUser }) {
     })
       .then((res) => res.json())
       .then((res) => {
-        
         if (res.message === "Success") {
           toggleAuthenticationFlag(true);
           setUser(res.data);
@@ -89,19 +84,15 @@ function LoginPage({ toggleAuthenticationFlag, setUser }) {
                     <input
                       type="submit"
                       name="Login"
-                      className="btn btn-block btn-md"
-                    
+                      className="btn btn-block btn-md btn-success"
                     />
-                  </div> 
-                   <div className="d-flex justify-content-center">
-                    <button
-                     className="btn btn-block btn-md"
-                     onClick={handleClick}                     
-                    >
-                      Signup
-                    </button>
                   </div>
                 </form>
+                <div className="d-flex justify-content-center">
+                  <Link to="/register" className="fw-bold text-body p-3">
+                    <u>Register as a new user!</u>
+                  </Link>
+                </div>
                 {
                   <div className="error-message d-flex justify-content-center">
                     {error}

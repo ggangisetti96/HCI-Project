@@ -11,24 +11,23 @@
 
 .header {
   margin-top: 1rem;
-  width: 50%;
 }
-.header-main
-{
+.header-main {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.navbar
-{
-  
+.navbar {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
-  width: 50%;
+  justify-content: flex-end;
   margin-top: 1rem;
+}
+
+.navbar a {
+  margin-right: 2em;
 }
 .AppHeader {
   height: 50px;
@@ -65,13 +64,11 @@ td {
   text-align: center;
 }
 
-.divFlex
-{
+.divFlex {
   display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
-.logo
-{
+.logo {
   width: 50%;
 }
