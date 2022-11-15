@@ -135,8 +135,8 @@ function safeGameMutate(modify) {
   }
 
   return (
-    <div>
-      <div className='divFlex'>
+    <div >
+      <div  className='flex'>
       <Chessboard
         id="PlayVsPlay"
         animationDuration={200}
