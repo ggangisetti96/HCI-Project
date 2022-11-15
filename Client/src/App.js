@@ -9,6 +9,7 @@ import useSessionStorage from "./hooks/useSessionStorage";
 import HomePage from "./Components/homepage";
 import HistoryPage from "./Components/history";
 import UserProfile from "./Components/user-info";
+import RegistrationForm from "./Components/user-registration";
 
 export default function App() {
   const [isAuthenticated, toggleAuthenticationFlag] = useSessionStorage(
@@ -45,7 +46,10 @@ export default function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/game" element={<Game />} />
           <Route path="/history" element={<HistoryPage />} />
-          <Route path="/profile" element={<UserProfile handleLogout={handleLogout} />} />
+          <Route
+            path="/profile"
+            element={<UserProfile handleLogout={handleLogout} />}
+          />
         </Routes>
       </div>
     );
@@ -64,7 +68,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/Game" element={<Game />} />
+        <Route path="/Game" element={<Login />} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/register" element={<RegistrationForm />} />
         <Route
           path="login"
           element={
