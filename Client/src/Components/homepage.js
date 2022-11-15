@@ -2,9 +2,7 @@ import React from "react";
 import HomeLogo from "../images/Home_logo.png";
 import { useNavigate } from "react-router-dom";
 
-
 function HomePage() {
-
   const navigate = useNavigate();
 
   function handleClick(){
@@ -13,21 +11,27 @@ function HomePage() {
   }
 
   return (
-    <div>
-      <div className="divFlex">
-        <img src={HomeLogo} className="logo"/>
+    <>
+      <div className="flex flex-row justify-content-center">
+        <img src={HomeLogo} className="logo" />
         <br></br>
       </div>
-      <div className="divFlex">
-      <button className="btn btn-block btn-md" onClick={handleClick}>
-        PLAYER VS PLAYER
-      </button>
-      <span>OR</span>
-      <button className="btn btn-block btn-md" onClick={handleClick}>
-        PLAYER VS COMPUTER
-      </button>
+      <div className="flex flex-row justify-content-center">
+        <button
+          className="btn btn-block btn-md btn-secondary mx-3"
+          onClick={handleClick}
+        >
+          PLAYER VS PLAYER
+        </button>
+        <span> OR </span>
+        <button
+          className="btn btn-block btn-md btn-secondary mx-3"
+          onClick={handleClick}
+        >
+          PLAYER VS COMPUTER
+        </button>
       </div>
-    </div>
+    </>
   );
 }
 
