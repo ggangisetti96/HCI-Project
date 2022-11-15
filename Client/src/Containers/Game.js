@@ -3,8 +3,9 @@ import {Chess} from 'chess.js';
 import { MOVES, CHESS_POSITIONS } from "../Constants/ChessMoves";
 import { Chessboard } from 'react-chessboard';
 import FuzzySet from '../Components/fuzzyset';
+import ActivityLegend from '../Components/activity-legend';
 
-export default function Game() {
+export default function Game(props) {
   const chessboardRef = useRef();
   const [game, setGame] = useState(new Chess());
   const [result, setResult] = useState(null);
@@ -135,6 +136,7 @@ function safeGameMutate(modify) {
 
   return (
     <div>
+      <div className='divFlex'>
       <Chessboard
         id="PlayVsPlay"
         animationDuration={200}
@@ -146,8 +148,11 @@ function safeGameMutate(modify) {
         }}
         ref={chessboardRef}
       />
-      <button
-        className="rc-button"
+      <div className='flexCol' style={{width:"100%"}}>
+        <ActivityLegend/>
+        <div className='divFlex'>
+        <button
+        className="btn btn-block btn-md bg-primary   text-white"
         onClick={() => {
           safeGameMutate((game) => {
             game.reset();
@@ -158,7 +163,7 @@ function safeGameMutate(modify) {
         reset
       </button>
       <button
-        className="rc-button"
+        className="btn btn-block btn-md bg-primary   text-white"
         onClick={() => {
           safeGameMutate((game) => {
             game.undo();
@@ -168,9 +173,13 @@ function safeGameMutate(modify) {
       >
         undo
       </button>
-      <button onClick={handleListen}>
+      <button onClick={handleListen} className="btn btn-block btn-md bg-primary   text-white">
         Start
       </button>
+        </div>
+      </div>
+      </div>
+    
       {
         !IsMatch?    
         "": <span>Didn't Recognise the Command </span>

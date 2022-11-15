@@ -8,8 +8,7 @@ function HomePage() {
   const navigate = useNavigate();
 
   function handleClick(){
-
-    navigate("/login");
+    navigate("/game");
 
   }
 

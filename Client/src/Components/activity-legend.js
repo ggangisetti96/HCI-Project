@@ -1,65 +1,48 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class ActivityLegend extends Component {
-  state = {
-    count: 0,
-    moves: [
-      {
-        moveNumber: 0,
-        player: "white",
-        piece: "pawn",
-        initialPosition: "A1",
-        finalPosition: "A2",
-      },
-      {
-        moveNumber: 1,
-        player: "black",
-        piece: "rook",
-        initialPosition: "D1",
-        finalPosition: "D2",
-      },
-    ],
-  };
+import Avatar from "../images/avatar.png";
 
-  styles = {
-    fontSize: 12,
-    fontWeight: "bold",
-  };
+function ActivityLegend(props) {
+  const [count,setCount] =useState(0);
 
-  getTable() {
-    return (
-      <div className="ActivityLegend">
-        <table>
-          <tr>
-            <th>Move Number</th>
-            <th>Player</th>
-            <th>Piece</th>
-            <th>Initial Position</th>
-            <th>Final Position</th>
-          </tr>
-          {this.state.moves.map((val, key) => {
-            return (
-              <tr key={key}>
-                <td>{val.moveNumber}</td>
-                <td>{val.player}</td>
-                <td>{val.piece}</td>
-                <td>{val.initialPosition}</td>
-                <td>{val.finalPosition}</td>
-              </tr>
-            );
-          })}
-        </table>
+
+return (
+
+  <div  >
+    <div className="divFlex" >
+      <div className="flexCol" >
+        <img src={Avatar} className=" rounded-circle " style={{width:"100px"}}
+          alt="Avatar" />
+        <span> Player 1</span>
       </div>
-    );
-  }
+      
+      <div className="flexCol">
+        <button
+          className="btn btn-block btn-md bg-primary   text-white"> MOVE</button>
+          <span> C1 to C4</span>
 
-  render() {
-    return (
-      <div>
-        <span style={this.styles}>{this.getTable()}</span>
+          <button
+          className="btn btn-block btn-md bg-success   text-white"> TURN</button>
       </div>
-    );
-  }
+    </div>
+    <div className="divFlex">
+      <div className="flexCol">
+        <img src={Avatar} className=" rounded-circle " style={{width:"100px"}}
+          alt="Avatar" />
+              <span> Player 2</span>
+      </div>
+      <div className="flexCol">
+      <button
+        className="btn btn-block btn-md bg-primary   text-white"> MOVE</button>
+        <span> C1 to C4</span>
+
+        <button
+        className="btn btn-block btn-md bg-success   text-white"> TURN</button>
+    </div>
+    </div>
+  </div>
+);
 }
 
 export default ActivityLegend;
+

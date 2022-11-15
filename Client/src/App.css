@@ -71,7 +71,21 @@ td {
     flex-direction: row;
     justify-content: space-evenly;
 }
+
+.flexCol
+{
+  display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
 .logo
 {
   width: 50%;
+}
+
+
+.align-center
+{
+  text-align: center;
 }

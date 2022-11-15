@@ -44,8 +44,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/game" element={<Game />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/profile" element={<UserProfile handleLogout={handleLogout} />} />
+          <Route path="/history" element={<HistoryPage user={user} />} />
+          <Route path="/profile" element={<UserProfile user={user} handleLogout={handleLogout} />} />
         </Routes>
       </div>
     );
