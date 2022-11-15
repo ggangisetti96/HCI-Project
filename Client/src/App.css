@@ -63,11 +63,8 @@ tr {
 td {
   text-align: center;
 }
-
-.divFlex {
+.flex {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
 }
 .logo {
   width: 50%;
