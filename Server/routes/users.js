@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
  router.post('/register', async (req, res) => {
    try {
     const { email} = req.body;
-    req.db.query(`Select * from Users WHERE User_Email = ${email}`, function (err, result) {
+    req.db.query(`Select * from Users WHERE User_Email = '${email}'`, function (err, result) {
       if (err) throw err;
       if(result.length){
         res.status(201).json({ message: "Already exists!" });
