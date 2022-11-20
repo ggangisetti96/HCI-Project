@@ -150,7 +150,7 @@ export default function RegistrationForm() {
 
                   {
                     <div
-                      className="error-message d-flex justify-content-center"
+                      className="error-message d-flex justify-content-center text-danger"
                       name="error"
                     >
                       {error}

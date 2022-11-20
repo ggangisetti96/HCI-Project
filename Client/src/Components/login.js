@@ -94,7 +94,7 @@ function LoginPage({ toggleAuthenticationFlag, setUser }) {
                   </Link>
                 </div>
                 {
-                  <div className="error-message d-flex justify-content-center">
+                  <div className="error-message d-flex justify-content-center text-danger">
                     {error}
                   </div>
                 }
