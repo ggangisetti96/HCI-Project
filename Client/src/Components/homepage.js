@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HomeLogo from "../images/Home_logo.png";
 import { useNavigate } from "react-router-dom";
 
-function HomePage() {
+function HomePage({ gameType, setGameType }) {
   const navigate = useNavigate();
 
-  function handleClick(){
-    navigate("/game");
+  useEffect(() => {
+    if (gameType) {
+      navigate("/game");
+    }
+  }, [gameType]);
 
+  function handleClick(type) {
+    setGameType(type);
+    navigate("/game");
   }
 
   return (
@@ -19,14 +25,14 @@ function HomePage() {
       <div className="flex flex-row justify-content-center">
         <button
           className="btn btn-block btn-md btn-secondary mx-3"
-          onClick={handleClick}
+          onClick={() => handleClick("PP")}
         >
           PLAYER VS PLAYER
         </button>
         <span> OR </span>
         <button
           className="btn btn-block btn-md btn-secondary mx-3"
-          onClick={handleClick}
+          onClick={() => handleClick("PC")}
         >
           PLAYER VS COMPUTER
         </button>

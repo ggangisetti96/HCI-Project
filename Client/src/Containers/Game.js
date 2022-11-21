@@ -1,46 +1,54 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {Chess} from 'chess.js';
+import React, { useEffect, useRef, useState } from "react";
+import { Chess } from "chess.js";
 import { MOVES, CHESS_POSITIONS } from "../Constants/ChessMoves";
-import { Chessboard } from 'react-chessboard';
-import FuzzySet from '../Components/fuzzyset';
-import ActivityLegend from '../Components/activity-legend';
+import { Chessboard } from "react-chessboard";
+import ActivityLegend from "../Components/activity-legend";
+import FuzzySet from "../Components/fuzzyset";
+import "../images/camera-on.png";
+import "../images/camera-off.png";
+import "../images/microphone-on.png";
+import "../images/microphone-off.png";
 
-export default function Game(props) {
+export default function Game({ gameType }) {
   const chessboardRef = useRef();
+  const [allowMicrophone, toggleMicrophone] = useState(true);
+  const [allowCamera, toggleCamera] = useState(false);
+  const [turn, setTurn] = useState("w");
+  const [whiteMove, setWMove] = useState(null);
+  const [blackMove, setBMove] = useState(null);
   const [game, setGame] = useState(new Chess());
   const [result, setResult] = useState(null);
-  const [IsMatch,setMatch]= useState(false);
-  const [speechRecognitionList, setSpeechRecognitionList]  = useState(()=>{
-    const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
+  const [IsMatch, setMatch] = useState(false);
+  const [speechRecognitionList, setSpeechRecognitionList] = useState(() => {
+    const SpeechGrammarList =
+      window.SpeechGrammarList || window.webkitSpeechGrammarList;
     const grammar =
-    "#JSGF V1.0; grammar chess; public <chess_position> = " +
-    CHESS_POSITIONS.join(" | ") +
-    " ; public <chess_move> = <chess_position> TO <chess_position>;";
+      "#JSGF V1.0; grammar chess; public <chess_position> = " +
+      CHESS_POSITIONS.join(" | ") +
+      " ; public <chess_move> = <chess_position> TO <chess_position>;";
     const grammarList = new SpeechGrammarList();
-    grammarList.addFromString(grammar, 1)
+    grammarList.addFromString(grammar, 1);
     return grammarList;
-  })
-  const[recognition, setRecognition] = useState(()=>{
+  });
+  const [recognition, setRecognition] = useState(() => {
     const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     recognition.grammars = speechRecognitionList;
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1000;
- 
 
     const FuzzySet = window.FuzzySet;
     const fzySet = FuzzySet(MOVES);
 
-    recognition.onresult = event => {
-
+    recognition.onresult = (event) => {
       var last = event.results.length - 1;
       var result = event.results[last][0].transcript.toUpperCase();
       var flag = false;
       for (let i = 0; i < event.results[last].length; i++) {
         for (let j = 0; j < MOVES.length; j++) {
-          console.log(event.results[last][i].transcript);
+          // console.log(event.results[last][i].transcript);
           if (event.results[last][i].transcript.toUpperCase() === "UNDO") {
             this.props.doUndo();
             return;
@@ -57,63 +65,58 @@ export default function Game(props) {
       }
 
       var fzySetList = [];
-          if (!flag) {
-            for (let i = 0; i < event.results[last].length; i++) {
-              fzySetList = fzySetList.concat(
-                fzySet.get(event.results[last][i].transcript.toUpperCase()) || []
-              );
-            }
+      if (!flag) {
+        for (let i = 0; i < event.results[last].length; i++) {
+          fzySetList = fzySetList.concat(
+            fzySet.get(event.results[last][i].transcript.toUpperCase()) || []
+          );
+        }
 
-            fzySetList.sort(function(a, b) {
-              return b[0] - a[0];
-            });
-            
-          // console.log(fzySetList);
-            if(fzySetList && fzySetList[0]!=null)
-            {
-            result = fzySetList[0][1];
-            setResult(result);
-            console.log(fzySetList[0][1]);
-            }
-          }
+        fzySetList.sort(function (a, b) {
+          return b[0] - a[0];
+        });
+
+        // console.log(fzySetList);
+        if (fzySetList && fzySetList[0] != null) {
+          result = fzySetList[0][1];
+          setResult(result);
+          // console.log(fzySetList[0][1]);
+        }
+      }
 
       setResult(null);
-    }
+    };
     return recognition;
-  })
-
+  });
 
   useEffect(() => {
-    if(result !== null) {
+    if (result !== null) {
       onDrop(
         result.slice(0, 2).toLowerCase(),
-         result.slice(6, 8).toLowerCase()
-         );
+        result.slice(6, 8).toLowerCase()
+      );
     }
-  }, [result])
+  }, [result]);
 
+  function handleListen() {
+    setMatch(false);
+    recognition.continuous = true;
+    recognition.start();
+  }
 
+  recognition.onspeechend = function () {
+    recognition.stop();
+  };
 
-function handleListen()
-{
-  setMatch(false);
-  recognition.continuous=true;
-  recognition.start();
-}
+  recognition.onnomatch = (event) => {
+    console.log("I didn't recognise that.");
+  };
 
-recognition.onspeechend = function() {
-  recognition.stop();
-};
+  recognition.onerror = (event) => {
+    console.log("Error occurred in recognition.");
+  };
 
-recognition.onnomatch = event => {
-  console.log("I didn't recognise that.");
-};
-
-recognition.onerror = event => {
-  console.log("Error occurred in recognition.");
-};
-
-function safeGameMutate(modify) {
+  function safeGameMutate(modify) {
     setGame((g) => {
       const update = { ...g };
       modify(update);
@@ -126,64 +129,72 @@ function safeGameMutate(modify) {
     const move = gameCopy.move({
       from: sourceSquare,
       to: targetSquare,
-      promotion: 'q' 
+      promotion: "q",
     });
-    console.log("turn", game.turn());
-    console.log(move)
+    if (turn == "w") {
+      setWMove(move);
+    } else {
+      setBMove(move);
+    }
+    setTurn(game.turn());
     setGame(gameCopy);
     return move;
   }
 
   return (
-    <div >
-      <div  className='flex'>
-      <Chessboard
-        id="PlayVsPlay"
-        animationDuration={200}
-        position={game.fen()}
-        onPieceDrop={onDrop}
-        customBoardStyle={{
-          borderRadius: '4px',
-          boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)'
-        }}
-        ref={chessboardRef}
-      />
-      <div className='flexCol' style={{width:"100%"}}>
-        <ActivityLegend/>
-        <div className='divFlex'>
-        <button
-        className="btn btn-block btn-md bg-primary   text-white"
-        onClick={() => {
-          safeGameMutate((game) => {
-            game.reset();
-          });
-          chessboardRef.current.clearPremoves();
-        }}
-      >
-        reset
-      </button>
-      <button
-        className="btn btn-block btn-md bg-primary   text-white"
-        onClick={() => {
-          safeGameMutate((game) => {
-            game.undo();
-          });
-          chessboardRef.current.clearPremoves();
-        }}
-      >
-        undo
-      </button>
-      <button onClick={handleListen} className="btn btn-block btn-md bg-primary   text-white">
-        Start
-      </button>
+    <div>
+      <div className="flex">
+        <Chessboard
+          id="PlayVsPlay"
+          animationDuration={200}
+          position={game.fen()}
+          onPieceDrop={onDrop}
+          customBoardStyle={{
+            borderRadius: "4px",
+            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+          }}
+          ref={chessboardRef}
+        />
+        <div className="flexCol" style={{ width: "100%" }}>
+          <ActivityLegend
+            turn={turn}
+            whiteMove={whiteMove}
+            blackMove={blackMove}
+          />
+          <div className="divFlex">
+            <button
+              className="btn btn-block btn-md bg-primary text-white"
+              onClick={() => {
+                safeGameMutate((game) => {
+                  game.reset();
+                });
+                chessboardRef.current.clearPremoves();
+              }}
+            >
+              reset
+            </button>
+            <button
+              className="btn btn-block btn-md bg-primary text-white"
+              onClick={() => {
+                safeGameMutate((game) => {
+                  game.undo();
+                });
+                chessboardRef.current.clearPremoves();
+              }}
+            >
+              undo
+            </button>
+            <button
+              onClick={handleListen}
+              className="btn btn-block btn-md bg-primary   text-white"
+            >
+              Start
+            </button>
+          </div>
         </div>
       </div>
-      </div>
-    
-      {
-        !IsMatch?    
-        "": <span>Didn't Recognise the Command </span>
-      } 
+
+      {!IsMatch ? "" : <span>Didn't Recognise the Command </span>}
     </div>
   );
 }

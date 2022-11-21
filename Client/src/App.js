@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import "./Styles/bootstrap.css";
@@ -17,6 +17,13 @@ export default function App() {
   );
 
   const [user, setUser] = useSessionStorage("user");
+  const [gameType, setGameType] = React.useState(null);
+
+  // React.useEffect(() => {
+  //   return () => {
+  //     setGameType(null);
+  //   };
+  // }, []);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -37,16 +44,22 @@ export default function App() {
           <Link to="/profile" name="user-info">
             Profile
           </Link>
-          <Link to="/Game" name="user-info">
+          {/* <Link to="/Game" name="user-info">
             Game
-          </Link>
+          </Link> */}
         </AppHeader>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/game" element={<Game />} />
+          <Route path="/" element={<HomePage setGameType={setGameType} />} />
+          <Route
+            path="/home"
+            element={<HomePage gameType={gameType} setGameType={setGameType} />}
+          />
+          <Route path="/game" element={<Game gameType={gameType} />} />
           <Route path="/history" element={<HistoryPage user={user} />} />
-          <Route path="/profile" element={<UserProfile user={user} handleLogout={handleLogout} />} />
+          <Route
+            path="/profile"
+            element={<UserProfile user={user} handleLogout={handleLogout} />}
+          />
         </Routes>
       </div>
     );
@@ -64,12 +77,31 @@ export default function App() {
       </AppHeader>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/Game" element={<Login />} />
-        <Route path="/history" element={<HistoryPage />} />
+        <Route
+          path="/home"
+          element={<HomePage gameType={gameType} setGameType={setGameType} />}
+        />
+        <Route
+          path="/game"
+          element={
+            <Login
+              toggleAuthenticationFlag={toggleAuthenticationFlag}
+              setUser={setUser}
+            />
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <Login
+              toggleAuthenticationFlag={toggleAuthenticationFlag}
+              setUser={setUser}
+            />
+          }
+        />
         <Route path="/register" element={<RegistrationForm />} />
         <Route
-          path="login"
+          path="/login"
           element={
             <Login
               toggleAuthenticationFlag={toggleAuthenticationFlag}
