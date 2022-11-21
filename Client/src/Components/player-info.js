@@ -7,7 +7,7 @@ function PlayerInfo({ isTurn, move, playerName }) {
   return (
     <div className="flex flex-row">
       <div className="flex flex-column">
-        <div className="ps-3">
+        <div className="ps-2">
           <strong>{playerName}</strong>
         </div>
         <div>

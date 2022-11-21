@@ -4,10 +4,7 @@ import { MOVES, CHESS_POSITIONS } from "../Constants/ChessMoves";
 import { Chessboard } from "react-chessboard";
 import ActivityLegend from "../Components/activity-legend";
 import FuzzySet from "../Components/fuzzyset";
-import "../images/camera-on.png";
-import "../images/camera-off.png";
-import "../images/microphone-on.png";
-import "../images/microphone-off.png";
+import GameControls from "../Components/game-controls";
 
 export default function Game({ gameType }) {
   const chessboardRef = useRef();
@@ -19,6 +16,7 @@ export default function Game({ gameType }) {
   const [game, setGame] = useState(new Chess());
   const [result, setResult] = useState(null);
   const [IsMatch, setMatch] = useState(false);
+  const [endGame, toggleGame] = useState(false);
   const [speechRecognitionList, setSpeechRecognitionList] = useState(() => {
     const SpeechGrammarList =
       window.SpeechGrammarList || window.webkitSpeechGrammarList;
@@ -86,6 +84,15 @@ export default function Game({ gameType }) {
 
       setResult(null);
     };
+
+    recognition.onnomatch = (event) => {
+      console.log("I didn't recognise that.");
+    };
+
+    recognition.onerror = (event) => {
+      console.log("Error occurred in recognition.");
+    };
+
     return recognition;
   });
 
@@ -98,23 +105,25 @@ export default function Game({ gameType }) {
     }
   }, [result]);
 
-  function handleListen() {
-    setMatch(false);
-    recognition.continuous = true;
-    recognition.start();
-  }
+  useEffect(() => {
+    if (allowMicrophone) {
+      setMatch(false);
+      recognition.continuous = true;
+      recognition.start();
+    } else {
+      recognition.stop();
+    }
+  }, [allowMicrophone]);
 
-  recognition.onspeechend = function () {
-    recognition.stop();
-  };
+  // function handleListen() {
+  //   setMatch(false);
+  //   recognition.continuous = true;
+  //   recognition.start();
+  // }
 
-  recognition.onnomatch = (event) => {
-    console.log("I didn't recognise that.");
-  };
-
-  recognition.onerror = (event) => {
-    console.log("Error occurred in recognition.");
-  };
+  // recognition.onspeechend = function () {
+  //   recognition.stop();
+  // };
 
   function safeGameMutate(modify) {
     setGame((g) => {
@@ -124,6 +133,16 @@ export default function Game({ gameType }) {
     });
   }
 
+  function handleRestart() {
+    safeGameMutate((game) => {
+      game.reset();
+    });
+    chessboardRef.current.clearPremoves();
+    setWMove(null);
+    setBMove(null);
+    setTurn("w");
+  }
+
   function onDrop(sourceSquare, targetSquare) {
     const gameCopy = { ...game };
     const move = gameCopy.move({
@@ -131,69 +150,49 @@ export default function Game({ gameType }) {
       to: targetSquare,
       promotion: "q",
     });
-    if (turn == "w") {
-      setWMove(move);
+    if (gameCopy.game_over()) {
+      toggleGame(true);
     } else {
-      setBMove(move);
+      if (turn == "w") {
+        setWMove(move);
+      } else {
+        setBMove(move);
+      }
+      setTurn(game.turn());
     }
-    setTurn(game.turn());
     setGame(gameCopy);
     return move;
   }
 
   return (
     <div>
-      <div className="flex">
-        <Chessboard
-          id="PlayVsPlay"
-          animationDuration={200}
-          position={game.fen()}
-          onPieceDrop={onDrop}
-          customBoardStyle={{
-            borderRadius: "4px",
-            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-          }}
-          ref={chessboardRef}
-        />
-        <div className="flexCol" style={{ width: "100%" }}>
-          <ActivityLegend
-            turn={turn}
-            whiteMove={whiteMove}
-            blackMove={blackMove}
+      <div className="flex flex-row justify-content-between">
+        <div className="flex flex-column">
+          <Chessboard
+            id="PlayVsPlay"
+            animationDuration={200}
+            position={game.fen()}
+            onPieceDrop={onDrop}
+            customBoardStyle={{
+              borderRadius: "4px",
+              boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            }}
+            ref={chessboardRef}
           />
-          <div className="divFlex">
-            <button
-              className="btn btn-block btn-md bg-primary text-white"
-              onClick={() => {
-                safeGameMutate((game) => {
-                  game.reset();
-                });
-                chessboardRef.current.clearPremoves();
-              }}
-            >
-              reset
-            </button>
-            <button
-              className="btn btn-block btn-md bg-primary text-white"
-              onClick={() => {
-                safeGameMutate((game) => {
-                  game.undo();
-                });
-                chessboardRef.current.clearPremoves();
-              }}
-            >
-              undo
-            </button>
-            <button
-              onClick={handleListen}
-              className="btn btn-block btn-md bg-primary   text-white"
-            >
-              Start
-            </button>
-          </div>
+          <GameControls
+            allowCamera={allowCamera}
+            allowMicrophone={allowMicrophone}
+            toggleMicrophone={toggleMicrophone}
+            toggleCamera={toggleCamera}
+            resetGame={handleRestart}
+          ></GameControls>
         </div>
+        <ActivityLegend
+          turn={turn}
+          whiteMove={whiteMove}
+          blackMove={blackMove}
+        />
       </div>
-
       {!IsMatch ? "" : <span>Didn't Recognise the Command </span>}
     </div>
   );

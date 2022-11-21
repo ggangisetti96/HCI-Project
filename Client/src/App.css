@@ -67,23 +67,23 @@ td {
   display: flex;
 }
 
-.flexCol
-{
+.flexCol {
   display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
-.logo
-{
+.logo {
   width: 50%;
 }
 
-
-.align-center
-{
+.align-center {
   text-align: center;
 }
 .logo {
   width: 50%;
+}
+
+img {
+  width: 45px;
 }
