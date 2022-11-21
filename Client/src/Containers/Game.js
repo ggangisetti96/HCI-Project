@@ -125,31 +125,9 @@ export default function Game({ gameType }) {
   //   recognition.stop();
   // };
 
-  function safeGameMutate(modify) {
-    setGame((g) => {
-      const update = { ...g };
-      modify(update);
-      return update;
-    });
-  }
-
-  function handleRestart() {
-    safeGameMutate((game) => {
-      game.reset();
-    });
-    chessboardRef.current.clearPremoves();
-    setWMove(null);
-    setBMove(null);
-    setTurn("w");
-  }
-
-  function onDrop(sourceSquare, targetSquare) {
+  function makeAMove(pieceMove) {
     const gameCopy = { ...game };
-    const move = gameCopy.move({
-      from: sourceSquare,
-      to: targetSquare,
-      promotion: "q",
-    });
+    const move = gameCopy.move(pieceMove);
     if (gameCopy.game_over()) {
       toggleGame(true);
     } else {
@@ -161,7 +139,40 @@ export default function Game({ gameType }) {
       setTurn(game.turn());
     }
     setGame(gameCopy);
-    return move;
+    return pieceMove;
+  }
+
+  function makeRandomMove() {
+    const possibleMoves = game.moves();
+    if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
+      return; // exit if the game is over
+    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+    makeAMove(possibleMoves[randomIndex]);
+  }
+
+  function handleRestart() {
+    const gameCopy = { ...game };
+    gameCopy.reset();
+    chessboardRef.current.clearPremoves();
+    setGame(gameCopy);
+    setWMove(null);
+    setBMove(null);
+    setTurn("w");
+  }
+
+  function onDrop(sourceSquare, targetSquare) {
+    const move = makeAMove({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: "q", // always promote to a queen for example simplicity
+    });
+
+    // illegal move
+    if (move === null) return false;
+    if (gameType == "PC") {
+      setTimeout(makeRandomMove, 600);
+    }
+    return true;
   }
 
   return (
