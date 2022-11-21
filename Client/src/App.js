@@ -54,7 +54,10 @@ export default function App() {
             path="/home"
             element={<HomePage gameType={gameType} setGameType={setGameType} />}
           />
-          <Route path="/game" element={<Game gameType={gameType} />} />
+          <Route
+            path="/game"
+            element={<Game gameType={gameType} user={user} />}
+          />
           <Route path="/history" element={<HistoryPage user={user} />} />
           <Route
             path="/profile"

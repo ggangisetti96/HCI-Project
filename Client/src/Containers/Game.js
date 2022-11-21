@@ -6,7 +6,7 @@ import ActivityLegend from "../Components/activity-legend";
 import FuzzySet from "../Components/fuzzyset";
 import GameControls from "../Components/game-controls";
 
-export default function Game({ gameType }) {
+export default function Game({ gameType, user }) {
   const chessboardRef = useRef();
   const [allowMicrophone, toggleMicrophone] = useState(true);
   const [allowCamera, toggleCamera] = useState(false);
@@ -202,6 +202,9 @@ export default function Game({ gameType }) {
           turn={turn}
           whiteMove={whiteMove}
           blackMove={blackMove}
+          gameType={gameType}
+          user={user}
+          allowCamera={allowCamera}
         />
       </div>
       {!IsMatch ? "" : <span>Didn't Recognise the Command </span>}
