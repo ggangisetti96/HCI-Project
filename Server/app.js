@@ -5,6 +5,7 @@ const mysql = require('mysql2');
 const config = require('./config/dbConfig');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const scoresRouter = require('./routes/scores');
 
 // dependencies 
 const app = express();
@@ -32,6 +33,7 @@ app.use(function(req,res,next){
 // routes(APIs)
 app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/scores', scoresRouter);
 
 
 // Start Server 

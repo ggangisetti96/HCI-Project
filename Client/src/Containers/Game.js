@@ -206,6 +206,7 @@ export default function Game({ gameType, user }) {
           user={user}
           allowCamera={allowCamera}
         />
+       
       </div>
       {!IsMatch ? "" : <span>Didn't Recognise the Command </span>}
     </div>

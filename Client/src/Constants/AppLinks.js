@@ -7,7 +7,7 @@ export const apiURL = 'http://localhost:3100/api';
 export const UsersURL = `${apiURL}/users`;
 export const userRegisrationURL = `${UsersURL}/register`; 
 export const loginURL = `${UsersURL}/authenticate`;
-export const scoresURL = `${UsersURL}/scores`;
+export const scoresURL = `${apiURL}/scores`;
 
 /*
     other URLS  

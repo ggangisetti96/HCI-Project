@@ -87,3 +87,36 @@ td {
 img {
   width: 45px;
 }
+
+
+
+.events-container{
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+}
+
+.event-card{
+  display: flex;
+  min-width: 5%;
+  max-width: 50%;
+  flex-direction: column;
+}
+
+.event-info{
+  margin: 1em;
+}
+
+.event-title{
+  color: #1A202C;
+}
+.event-card > div{
+  margin: 0.3em;
+}
+.event-info > div{
+  margin: 1em;
+}
+.today-btn{
+  background: aliceblue;
+  border: 1px solid black;
+}
