@@ -5,6 +5,7 @@ import { Chessboard } from "react-chessboard";
 import ActivityLegend from "../Components/activity-legend";
 import FuzzySet from "../Components/fuzzyset";
 import GameControls from "../Components/game-controls";
+import Notification from "../Components/notification";
 
 export default function Game({ gameType, user }) {
   const chessboardRef = useRef();
@@ -145,12 +146,20 @@ export default function Game({ gameType, user }) {
   function makeRandomMove() {
     const possibleMoves = game.moves();
     if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
+    {
+      toggleGame(true);
       return; // exit if the game is over
+    }
     const randomIndex = Math.floor(Math.random() * possibleMoves.length);
     makeAMove(possibleMoves[randomIndex]);
   }
 
+  function handleClose(){
+    toggleGame(!endGame);
+    handleRestart();
+  }
   function handleRestart() {
+    
     const gameCopy = { ...game };
     gameCopy.reset();
     chessboardRef.current.clearPremoves();
@@ -208,7 +217,13 @@ export default function Game({ gameType, user }) {
         />
        
       </div>
-      {!IsMatch ? "" : <span>Didn't Recognise the Command </span>}
+      <Notification 
+      endGame={endGame} 
+      status={turn=="w" ? "WON":"LOST" }
+      close={handleClose}
+      
+      />
+            {!IsMatch ? "" : <span>Didn't Recognise the Command </span>}
     </div>
   );
 }

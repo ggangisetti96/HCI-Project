@@ -24,7 +24,7 @@ function Indicator({ showIndicator }) {
           TURN
         </button>
       ) : (
-        <div></div>
+        <div style={{minWidth:"80px"}}></div>
       )}
     </div>
   );
